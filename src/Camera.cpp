@@ -1,6 +1,5 @@
 #include "Camera.h"
 
-// コンストラクタ
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) 
     : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM) {
     Position = position;
@@ -10,12 +9,10 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     updateCameraVectors();
 }
 
-// ビューマトリックスを返す
 glm::mat4 Camera::GetViewMatrix() {
     return glm::lookAt(Position, Position + Front, Up);
 }
 
-// キーボード入力を処理
 void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime) {
     float velocity = MovementSpeed * deltaTime;
     if (direction == FORWARD)
@@ -32,7 +29,6 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime) {
         Position -= Up * velocity;
 }
 
-// マウス入力を処理
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch) {
     xoffset *= MouseSensitivity;
     yoffset *= MouseSensitivity;

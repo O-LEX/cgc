@@ -48,7 +48,6 @@ int main(){
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    // Enable depth testing
     glEnable(GL_DEPTH_TEST);
 
     Shader shader(SOURCE_DIR "/shader/vertex_shader.glsl", SOURCE_DIR "/shader/fragment_shader.glsl");
