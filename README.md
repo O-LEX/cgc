@@ -1,1 +1,3 @@
 # cgc
+
+externalにglad入れてください
