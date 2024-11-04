@@ -12,7 +12,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
-// Settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 800;
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -22,7 +21,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-// 主関数
 int main(){
     if(!initializeGLFW()){
         return -1;
@@ -37,7 +35,6 @@ int main(){
         return -1;
     }
 
-    // Set viewport size and callback functions
     #ifdef __APPLE__
     glViewport(0, 0, SCR_WIDTH * 2, SCR_HEIGHT * 2);
     #else
@@ -70,9 +67,11 @@ int main(){
         shader.setMat4("projection", projection);
 
         glm::mat4 modelMatrix = glm::mat4(1.0f);
-        modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f)); // translation
-        modelMatrix = glm::rotate(modelMatrix, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // rotation
+        modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         shader.setMat4("model", modelMatrix);
+
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
