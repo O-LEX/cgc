@@ -1,4 +1,4 @@
-#include "shader.h"
+#include "Shader.h"
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath) {
     // シェーダーのコードを読み込む
