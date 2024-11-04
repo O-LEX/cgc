@@ -16,6 +16,6 @@ public:
 private:
     std::vector<Node> nodes;
     double rest_length;
-    double stiffness; // 引張・圧縮用
+    double stiffness;
     double bending_stiffness;
 };

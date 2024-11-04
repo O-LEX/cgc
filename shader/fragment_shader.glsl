@@ -1,8 +1,10 @@
 #version 410 core
+
+in vec3 vColor;
+
 out vec4 FragColor;
 
-uniform vec3 rodColor;
-
-void main(){
-    FragColor = vec4(rodColor, 1.0);
+void main()
+{
+    FragColor = vec4(vColor, 1.0);
 }
