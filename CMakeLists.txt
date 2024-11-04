@@ -23,12 +23,14 @@ FetchContent_MakeAvailable(glfw)
 set(SOURCES
     main.cpp
     ${PROJECT_SOURCE_DIR}/external/glad/src/gl.c
+    ${PROJECT_SOURCE_DIR}/src/util.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/external/glad/include
+    ${PROJECT_SOURCE_DIR}/include
 )
 
 target_link_libraries(${PROJECT_NAME} 
