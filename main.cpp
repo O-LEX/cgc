@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "util.h"
 #include "Camera.h"
+#include "Rod.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -48,6 +49,8 @@ int main(){
     glEnable(GL_DEPTH_TEST);
 
     Shader shader(SOURCE_DIR "/shader/vertex_shader.glsl", SOURCE_DIR "/shader/fragment_shader.glsl");
+
+    Rod rod(10, 1.0, 100.0, 100.0);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
