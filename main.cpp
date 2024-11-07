@@ -23,18 +23,12 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 int main(){
-    if(!initializeGLFW()){
-        return -1;
-    }
+    if(!initializeGLFW()) return -1;
 
-    GLFWwindow* window = createWindow(SCR_WIDTH, SCR_HEIGHT, "DER");
-    if(!window){
-        return -1;
-    }
+    GLFWwindow* window = createWindow(SCR_WIDTH, SCR_HEIGHT, "CGC");
+    if(!window) return -1;
 
-    if(!initializeGLAD()){
-        return -1;
-    }
+    if(!initializeGLAD()) return -1;
 
     #ifdef __APPLE__
     glViewport(0, 0, SCR_WIDTH * 2, SCR_HEIGHT * 2);
