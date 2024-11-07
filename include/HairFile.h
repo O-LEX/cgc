@@ -71,7 +71,7 @@ public:
     void SaveToFile(const std::string& filename) const;
 
     void CreateVAO();
-    void Draw() const;
+    void Draw(Shader& shader) const;
     void PrintHeader() const;
 
 private:
@@ -82,7 +82,7 @@ private:
     std::vector<float> transparency;
     std::vector<float> colors;
 
-    GLuint VAO, VBO;
+    GLuint VAO, VBO, TBO, TrBO, CBO;
 
     static constexpr int HAIR_FILE_SEGMENTS_BIT = 1;
     static constexpr int HAIR_FILE_POINTS_BIT = 2;

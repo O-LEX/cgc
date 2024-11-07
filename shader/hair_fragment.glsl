@@ -1,5 +1,10 @@
-#version 330 core
+#version 410 core
+in float vThickness;
+in float vTransparency;
+in vec3 vColor;
+
 out vec4 FragColor;
+
 void main() {
-    FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    FragColor = vec4(vColor, 1.0 - vTransparency);
 }

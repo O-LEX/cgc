@@ -69,23 +69,58 @@ void HairFile::CreateVAO() {
 
     glBindVertexArray(VAO);
 
+    // Points
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(float), points.data(), GL_STATIC_DRAW);
-
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    // Thickness
+    if (header.arrays & HAIR_FILE_THICKNESS_BIT) {
+        glGenBuffers(1, &TBO);
+        glBindBuffer(GL_ARRAY_BUFFER, TBO);
+        glBufferData(GL_ARRAY_BUFFER, thickness.size() * sizeof(float), thickness.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+    }
+
+    // Transparency
+    if (header.arrays & HAIR_FILE_TRANSPARENCY_BIT) {
+        glGenBuffers(1, &TrBO);
+        glBindBuffer(GL_ARRAY_BUFFER, TrBO);
+        glBufferData(GL_ARRAY_BUFFER, transparency.size() * sizeof(float), transparency.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
+        glEnableVertexAttribArray(2);
+    }
+
+    // Color
+    if (header.arrays & HAIR_FILE_COLORS_BIT) {
+        glGenBuffers(1, &CBO);
+        glBindBuffer(GL_ARRAY_BUFFER, CBO);
+        glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(float), colors.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(3);
+    }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
-void HairFile::Draw() const {
+void HairFile::Draw(Shader& shader) const {
+    shader.setInt("useDefaultThickness", !(header.arrays & HAIR_FILE_THICKNESS_BIT));
+    shader.setInt("useDefaultTransparency", !(header.arrays & HAIR_FILE_TRANSPARENCY_BIT));
+    shader.setInt("useDefaultColor", !(header.arrays & HAIR_FILE_COLORS_BIT));
+    shader.setFloat("defaultThickness", header.d_thickness);
+    shader.setFloat("defaultTransparency", header.d_transparency);
+    shader.setVec3("defaultColor", glm::vec3(header.d_color[0], header.d_color[1], header.d_color[2]));
+    
     glBindVertexArray(VAO);
 
     unsigned int offset = 0;
     for (unsigned int i = 0; i < header.hair_count; ++i) {
-        glDrawArrays(GL_LINE_STRIP, offset, header.d_segments + 1);
-        offset += header.d_segments;
+        unsigned int segmentCount = (header.arrays & HAIR_FILE_SEGMENTS_BIT) ? segments[i] : header.d_segments;
+        glDrawArrays(GL_LINE_STRIP, offset, segmentCount + 1); // segmentは幾つに分かれているかということ。ポイントの数は+1
+        offset += segmentCount + 1; // オフセットを更新する際に、ポイントの数を考慮する
     }
 
     glBindVertexArray(0);

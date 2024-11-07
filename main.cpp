@@ -77,7 +77,7 @@ int main(){
         modelMatrix = glm::rotate(modelMatrix, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         shader.setMat4("model", modelMatrix);
 
-        hairFile.Draw();
+        hairFile.Draw(shader);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
