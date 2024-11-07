@@ -1,5 +1,4 @@
 #include "util.h"
-#include <iostream>
 
 bool initializeGLFW() {
     if (!glfwInit()) {

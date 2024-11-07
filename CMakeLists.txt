@@ -14,28 +14,26 @@ find_package(glm REQUIRED)
 find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 
 set(SOURCES
-    main.cpp
     external/glad/src/gl.c
     src/util.cpp
     src/Camera.cpp
-    src/Node.cpp
-    src/Rod.cpp
     src/Shader.cpp
-    src/Camera.cpp
+    # src/Strand.cpp
+    # src/Node.cpp
+    # src/Rod.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE
+target_include_directories(${PROJECT_NAME} PUBLIC
     external/glad/include
     include
 )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE SOURCE_DIR="${PROJECT_SOURCE_DIR}")
-
 target_link_libraries(${PROJECT_NAME}
-    OpenGL::GL
-    glfw
-    glm::glm
-    Eigen3::Eigen
+    PUBLIC
+        OpenGL::GL
+        glfw
+        glm::glm
+        Eigen3::Eigen
 )
