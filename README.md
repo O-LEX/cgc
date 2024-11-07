@@ -22,5 +22,7 @@ brew install glm
 
 brew install eigen
 
+髪を読み込む機能を使うならmodelにyukselのホームページからダウンロードしてきた髪の毛ファイルを入れる必要がある。
+
 
 Thank you Cem Yuksel!
