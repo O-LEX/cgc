@@ -1,4 +1,3 @@
 # cgc
 
-Uploading Screen Recording 2024-11-07 at 15.23.31.mov…
-
+https://github.com/user-attachments/assets/7e9cf3bd-9c58-4f27-a3ec-9686bc79278f
