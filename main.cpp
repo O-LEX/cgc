@@ -15,7 +15,7 @@ void processInput(GLFWwindow *window);
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 800;
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f)); //Initial Position; Direction (0,0,-1)
+Camera camera(glm::vec3(0.0f, 0.0f, 150.0f)); //Initial Position; Direction (0,0,-1)
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -52,7 +52,7 @@ int main(){
 
     HairFile hairFile;
     try {
-        hairFile.LoadFromFile(SOURCE_DIR "/model/wStraight.hair");
+        hairFile.LoadFromFile(SOURCE_DIR "/model/wWavy.hair");
         hairFile.CreateVAO();
     } catch (const std::runtime_error& e) {
         std::cerr << "Error loading file: " << e.what() << std::endl;
@@ -92,13 +92,6 @@ int main(){
     glfwTerminate();
     return 0;
 }
-
-
-
-
-
-
-
 
 // Callback function for framebuffer size changes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {

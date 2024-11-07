@@ -66,7 +66,6 @@ void HairFile::SaveToFile(const std::string& filename) const {
 void HairFile::CreateVAO() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
 
@@ -76,19 +75,21 @@ void HairFile::CreateVAO() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, segments.size() * sizeof(unsigned short), segments.data(), GL_STATIC_DRAW);
-
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
-void HairFile::Draw() {
+void HairFile::Draw() const {
     glBindVertexArray(VAO);
-    glDrawElements(GL_LINE_STRIP, segments.size(), GL_UNSIGNED_SHORT, 0);
+
+    unsigned int offset = 0;
+    for (unsigned int i = 0; i < header.hair_count; ++i) {
+        glDrawArrays(GL_LINE_STRIP, offset, header.d_segments + 1);
+        offset += header.d_segments;
+    }
+
     glBindVertexArray(0);
 }
-
 
 void HairFile::PrintHeader() const {
     std::cout << "Header Information:" << std::endl;
