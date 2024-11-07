@@ -1,6 +1,8 @@
 # cgc
 
-https://github.com/user-attachments/assets/7e9cf3bd-9c58-4f27-a3ec-9686bc79278f
+
+https://github.com/user-attachments/assets/dfa1e78d-5812-4a6a-89a8-e6f0cbcfd3bf
+
 
 openglで描画するためのプログラム
 
