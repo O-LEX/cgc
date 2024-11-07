@@ -22,8 +22,6 @@ set(SOURCES
     src/HairFile.cpp
 )
 
-# add_library(${PROJECT_NAME} STATIC ${SOURCES})
-
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC

@@ -96,7 +96,13 @@ void HairFile::PrintHeader() const {
     std::cout << "Signature: " << std::string(header.signature, 4) << std::endl;
     std::cout << "Hair Count: " << header.hair_count << std::endl;
     std::cout << "Point Count: " << header.point_count << std::endl;
-    std::cout << "Arrays: " << header.arrays << std::endl;
+    std::cout << "Arrays: " << header.arrays << " (";
+    if (header.arrays & HAIR_FILE_SEGMENTS_BIT) std::cout << "Segments ";
+    if (header.arrays & HAIR_FILE_POINTS_BIT) std::cout << "Points ";
+    if (header.arrays & HAIR_FILE_THICKNESS_BIT) std::cout << "Thickness ";
+    if (header.arrays & HAIR_FILE_TRANSPARENCY_BIT) std::cout << "Transparency ";
+    if (header.arrays & HAIR_FILE_COLORS_BIT) std::cout << "Colors ";
+    std::cout << ")" << std::endl;
     std::cout << "Default Segments: " << header.d_segments << std::endl;
     std::cout << "Default Thickness: " << header.d_thickness << std::endl;
     std::cout << "Default Transparency: " << header.d_transparency << std::endl;
