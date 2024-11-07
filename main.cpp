@@ -6,7 +6,7 @@
 #include "Shader.h"
 #include "util.h"
 #include "Camera.h"
-#include "Rod.h"
+#include "HairFile.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -48,9 +48,18 @@ int main(){
 
     glEnable(GL_DEPTH_TEST);
 
-    Shader shader(SOURCE_DIR "/shader/vertex_shader.glsl", SOURCE_DIR "/shader/fragment_shader.glsl");
+    Shader shader(SOURCE_DIR "/shader/hair_vertex.glsl", SOURCE_DIR "/shader/hair_fragment.glsl");
 
-    Rod rod(10, 1.0, 100.0, 100.0);
+    HairFile hairFile;
+    try {
+        hairFile.LoadFromFile(SOURCE_DIR "/model/wStraight.hair");
+        hairFile.CreateVAO();
+    } catch (const std::runtime_error& e) {
+        std::cerr << "Error loading file: " << e.what() << std::endl;
+        return 1;
+    }
+
+    hairFile.PrintHeader();
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
@@ -74,7 +83,7 @@ int main(){
         modelMatrix = glm::rotate(modelMatrix, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         shader.setMat4("model", modelMatrix);
 
-
+        hairFile.Draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
