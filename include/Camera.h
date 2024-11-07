@@ -46,7 +46,7 @@ public:
     glm::mat4 GetViewMatrix();
 
     // キーボード入力を処理
-    void ProcessKeyboard(Camera_Movement direction, float deltaTime);
+    void ProcessKeyboard(Camera_Movement direction, float deltaTime, bool shift = false);
     // マウス入力を処理
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
     // マウスホイール入力を処理

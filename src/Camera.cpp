@@ -13,8 +13,9 @@ glm::mat4 Camera::GetViewMatrix() {
     return glm::lookAt(Position, Position + Front, Up);
 }
 
-void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime) {
+void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime,bool shift) {
     float velocity = MovementSpeed * deltaTime;
+    if (shift) velocity *= 10;
     if (direction == FORWARD)
         Position += Front * velocity;
     if (direction == BACKWARD)
