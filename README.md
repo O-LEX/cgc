@@ -1,14 +1,11 @@
 # cgc
 
-
 https://github.com/user-attachments/assets/dfa1e78d-5812-4a6a-89a8-e6f0cbcfd3bf
 
 
 openglで描画するためのプログラム
 
-yukselのhairモデルを読み込める
-
-gltfも読めるようにするかも
+yukselの.hairファイルを読み込める
 
 使い方
 
@@ -24,7 +21,18 @@ brew install glm
 
 brew install eigen
 
-髪を読み込む機能を使うならmodelにyukselのホームページからダウンロードしてきた髪の毛ファイルを入れる必要がある。
-
+髪を読み込むためにyukselのホームページから.hairファイルをダウンロードする必要がある。
 
 Thank you Cem Yuksel!
+
+hairについて
+
+初期形状ではなんの力もかかっていないと仮定している。つまり初期形状がバネの自然長
+
+シミュレーションのコードはすべてDER.cppに実装されている。
+
+シミュレーションのコードは不完全。これから色々実装する
+
+ray-tracingリポジトリからgltfを読み込む機能を追加したい。誰かしてくれ。
+
+あとgltfよりobjのほうがいいかもしれない。
