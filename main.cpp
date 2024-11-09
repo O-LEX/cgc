@@ -46,7 +46,7 @@ int main(){
 
     HairFile hairFile;
     try {
-        hairFile.LoadFromFile(SOURCE_DIR "/model/wWavy.hair");
+        hairFile.LoadFromFile(SOURCE_DIR "/model/dark.hair");
         hairFile.CreateVAO();
     } catch (const std::runtime_error& e) {
         std::cerr << "Error loading file: " << e.what() << std::endl;
@@ -62,7 +62,7 @@ int main(){
 
         processInput(window);
 
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.use();
