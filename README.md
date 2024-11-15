@@ -36,3 +36,11 @@ hairについて
 ray-tracingリポジトリからgltfを読み込む機能を追加したい。誰かしてくれ。
 
 あとgltfよりobjのほうがいいかもしれない。
+
+To do
+
+髪のシミュレーション
+
+gltfもしくはobjの読み込み
+
+compute shaderの実装

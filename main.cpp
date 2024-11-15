@@ -46,7 +46,7 @@ int main(){
 
     HairFile hairFile;
     try {
-        hairFile.LoadFromFile(SOURCE_DIR "/model/dark.hair");
+        hairFile.LoadFromFile(SOURCE_DIR "/model/wWavy.hair");
         hairFile.CreateVAO();
     } catch (const std::runtime_error& e) {
         std::cerr << "Error loading file: " << e.what() << std::endl;

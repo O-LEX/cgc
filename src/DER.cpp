@@ -1,49 +1,52 @@
 #include "DER.h"
 
-Node::Node(const glm::vec3& pos) : position(pos), velocity(0.0f), force(0.0f) {}
+Vertex::Vertex(const glm::vec3& pos) : position(pos), velocity(0.0f) {}
 
-Strand::Strand(int nodeCount, const glm::vec3& startPosition, float nodeLength) : nodeLength(nodeLength) {
-    for (int i = 0; i < nodeCount; ++i) {
-        glm::vec3 pos = startPosition + glm::vec3(0.0f, -i * nodeLength, 0.0f);
-        nodes.emplace_back(pos);
-    }
-    stiffness = 1.0f;
-    damping = 0.1f;
+// Function to calculate distance between two glm::vec3 points
+float Distance(const glm::vec3& a, const glm::vec3& b) {
+    return glm::length(b - a);
 }
 
-void Strand::applyForces() {
-    // 力の計算（弾性力、重力、ダンピングなど）
-    for (size_t i = 0; i < nodes.size(); ++i) {
-        // 重力
-        nodes[i].force = glm::vec3(0.0f, -9.81f, 0.0f);
+// Function to subdivide a strand into equal length segments
+void Strand::SubdivideStrand(int subdivisions) {
+    if (vertices.size() < 2) return;
 
-        // ダンピング
-        nodes[i].force -= damping * nodes[i].velocity;
+    // Calculate total length
+    float totalLength = 0.0f;
+    for (size_t i = 0; i < vertices.size() - 1; ++i) {
+        totalLength += Distance(vertices[i].position, vertices[i + 1].position);
+    }
 
-        // 弾性力（隣接するノードとのバネ力）
-        if (i > 0) {
-            glm::vec3 delta = nodes[i].position - nodes[i - 1].position;
-            float length = glm::length(delta);
-            glm::vec3 direction = glm::normalize(delta);
-            nodes[i].force -= stiffness * (length - nodeLength) * direction;
-            nodes[i - 1].force += stiffness * (length - nodeLength) * direction;
+    // Determine target segment length
+    float targetLength = totalLength / subdivisions;
+    std::vector<Vertex> newVertices;
+    newVertices.emplace_back(vertices.front());
+
+    float accumulated = 0.0f;
+    size_t current = 0;
+
+    while (newVertices.size() < static_cast<size_t>(subdivisions) && current < vertices.size() - 1) {
+        float segmentLength = Distance(vertices[current].position, vertices[current + 1].position);
+        if (accumulated + segmentLength >= targetLength) {
+            float remaining = targetLength - accumulated;
+            float t = remaining / segmentLength;
+            glm::vec3 newPos = glm::mix(vertices[current].position, vertices[current + 1].position, t);
+            newVertices.emplace_back(newPos);
+            // Insert the new vertex into the current segment
+            vertices.insert(vertices.begin() + current + 1, Vertex(newPos));
+            accumulated = 0.0f;
+        } else {
+            accumulated += segmentLength;
+            ++current;
         }
     }
+
+    // Ensure the last vertex is included
+    newVertices.emplace_back(vertices.back().position);
+    vertices = std::move(newVertices);
 }
 
-void Strand::integrate(float deltaTime) {
-    // 力に基づいて位置と速度を更新
-    for (auto& node : nodes) {
-        node.velocity += node.force * deltaTime;
-        node.position += node.velocity * deltaTime;
-    }
-}
-
-void Strand::handleCollisions() {
-    // 衝突処理（必要に応じて実装）
-}
-
-void Hair::initialize(const HairFile& hairFile) {
+void DER::initialize(const HairFile& hairFile) {
     unsigned int offset = 0;
     const HairFile::Header& header = hairFile.GetHeader();
 
@@ -52,31 +55,25 @@ void Hair::initialize(const HairFile& hairFile) {
             ? header.d_segments 
             : hairFile.GetSegmentsArray()[i];
 
-        glm::vec3 startPos(
-            hairFile.GetPointsArray()[offset * 3], 
-            hairFile.GetPointsArray()[offset * 3 + 1], 
-            hairFile.GetPointsArray()[offset * 3 + 2]
-        );
+        Strand strand;
 
-        Strand strand(segmentCount + 1, startPos, 1.0f);
-
-        for (unsigned int j = 0; j <= segmentCount; ++j) {
-            strand.nodes[j].position = glm::vec3(
+        for (unsigned int j = 0; j < segmentCount + 1; ++j) {
+            strand.vertices.emplace_back(glm::vec3(
                 hairFile.GetPointsArray()[(offset + j) * 3], 
                 hairFile.GetPointsArray()[(offset + j) * 3 + 1], 
                 hairFile.GetPointsArray()[(offset + j) * 3 + 2]
-            );
+            ));
         }
 
-        strands.push_back(strand);
+        // Subdivide strand
+        strand.SubdivideStrand(48);
+
+        strands.emplace_back(std::move(strand));
         offset += segmentCount + 1;
     }
 }
 
-void Hair::update(float deltaTime) {
+void DER::update(float deltaTime) {
     for (auto& strand : strands) {
-        strand.applyForces();
-        strand.integrate(deltaTime);
-        strand.handleCollisions();
     }
 }
