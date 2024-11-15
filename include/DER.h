@@ -11,15 +11,17 @@ public:
     Vertex(const glm::vec3& pos);
 };
 
-class Edge {
-public:
-    std::array<glm::vec3, 3> frame;
-};
-
 class Strand {
 public:
     std::vector<Vertex> vertices;
-    void SubdivideStrand(int subdivisions);
+
+    // 各セグメントに対応するフレームを格納
+    std::vector<glm::vec3> tangent;   // 接線ベクトル (d3)
+    std::vector<glm::vec3> normal;   // 法線ベクトル (d1)
+    std::vector<glm::vec3> binormal; // 捩れベクトル (d2)
+
+    void SubdivideStrand(int subdivisions); // シミュレーションのために再分割
+    void CalculateFrames();                // 空間方向のフレームを計算
 };
 
 class DER {
