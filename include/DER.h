@@ -1,14 +1,15 @@
 #pragma once
-#include <glm/glm.hpp>
+
+#include <Eigen/Dense>
 #include <vector>
 #include "HairFile.h"
 
 class Vertex {
 public:
-    glm::vec3 position;
-    glm::vec3 velocity;
+    Eigen::Vector3d position;
+    Eigen::Vector3d velocity;
 
-    Vertex(const glm::vec3& pos);
+    Vertex(const Eigen::Vector3d& pos);
 };
 
 class Strand {
@@ -16,12 +17,17 @@ public:
     std::vector<Vertex> vertices;
 
     // 各セグメントに対応するフレームを格納
-    std::vector<glm::vec3> tangent;   // 接線ベクトル (d3)
-    std::vector<glm::vec3> normal;   // 法線ベクトル (d1)
-    std::vector<glm::vec3> binormal; // 捩れベクトル (d2)
+    std::vector<Eigen::Vector3d> tangent;   // 接線ベクトル (d3)
+    std::vector<Eigen::Vector3d> normal;    // 法線ベクトル (d1)
+    std::vector<Eigen::Vector3d> binormal;  // 捩れベクトル (d2)
+
+    std::vector<Eigen::Vector3d> ref_dir_1; // reference directors
+    std::vector<Eigen::Vector3d> ref_dir_2;
 
     void SubdivideStrand(int subdivisions); // シミュレーションのために再分割
-    void CalculateFrames();                // 空間方向のフレームを計算
+    void CalculateFrame();                // 空間方向のフレームを計算
+    void UpdateReferenceFrame(); //Reference frameの変化を蓄積
+    void UpdateMaterialFrame(); //Reference frameをtheta_jだけ回転
 };
 
 class DER {
