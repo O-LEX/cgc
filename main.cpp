@@ -7,6 +7,7 @@
 #include "util.h"
 #include "Camera.h"
 #include "HairFile.h"
+#include "PBD.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -54,6 +55,9 @@ int main(){
     }
 
     hairFile.PrintHeader();
+
+    PBD pbd;
+    pbd.initialize(hairFile);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
