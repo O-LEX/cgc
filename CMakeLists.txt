@@ -21,7 +21,6 @@ set(SOURCES
     src/Shader.cpp
     src/HairFile.cpp
     src/Strand.cpp
-    src/DER.cpp
     src/PBD.cpp
 )
 

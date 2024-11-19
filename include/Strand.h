@@ -13,7 +13,11 @@ public:
 
 class Strand {
 public:
+    int vertexCount;
     std::vector<Vertex> vertices;
 
-    void SubdivideStrand(int subdivisions); // シミュレーションのために再分割
+    Strand(const std::vector<Vertex>& vertices, int vertexCount = 10);
+
+    void SubdivideStrand(); // シミュレーションのために再分割
+    std::vector<Eigen::Vector3d> getPositions() const; // 位置を取得
 };
