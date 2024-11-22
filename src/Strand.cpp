@@ -1,6 +1,5 @@
 #include "Strand.h"
 
-
 Vertex::Vertex(const Eigen::Vector3d& pos, const Eigen::Vector3d& vel)
     : position(pos), velocity(vel) {}
 

@@ -2,46 +2,29 @@
 
 https://github.com/user-attachments/assets/dfa1e78d-5812-4a6a-89a8-e6f0cbcfd3bf
 
+# 使い方
 
-openglで描画するためのプログラム
+glfw,glm,eigenをインストール
 
-yukselの.hairファイルを読み込める
+## mac 
+brew install glfw, glm, eigen
 
-使い方
+## windows
+vcpkgをC直下にインストールしてください
 
-glfw,glm,eigen3をインストール
+vcpkg install glfw3 glm eigen3
 
-最新の機能使ってないけど一応全部最新verで
-
-macならbrew installで全部入る。
-
-brew install glfw
-
-brew install glm
-
-brew install eigen
-
+# hair model
 髪を読み込むためにyukselのホームページから.hairファイルをダウンロードする必要がある。
 
 Thank you Cem Yuksel!
 
-hairについて
-
 シミュレーションのコードは不完全。これから色々実装する
 
-ray-tracingリポジトリからgltfを読み込む機能を追加したい。誰かしてくれ。
-
-あとgltfよりobjのほうがいいかもしれない。
-
-To do
-
-髪のシミュレーション
-
+# TO DO
 gltfもしくはobjの読み込み
 
 compute shaderの実装
-
-PBD実装しました。重くて動きません。固定頂点とかやってないので重力で落ちていくはずですが重すぎて確認できません。
 
 # memo
 位置と速度を更新
