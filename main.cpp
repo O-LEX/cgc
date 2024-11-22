@@ -43,29 +43,24 @@ int main(){
 
     glEnable(GL_DEPTH_TEST);
 
-    Shader shader(SOURCE_DIR "/shader/tiny_hair_vertex.glsl", SOURCE_DIR "/shader/tiny_hair_fragment.glsl");
+    // Shader shader(SOURCE_DIR "/shader/tiny_hair_vertex.glsl", SOURCE_DIR "/shader/tiny_hair_fragment.glsl");
+    Shader shader(SOURCE_DIR "/shader/hair_vertex.glsl", SOURCE_DIR "/shader/hair_fragment.glsl");
 
     HairFile hairFile;
-    try {
-        hairFile.LoadFromFile(SOURCE_DIR "/model/wWavy.hair");
-        // hairFile.CreateVAO();
-    } catch (const std::runtime_error& e) {
-        std::cerr << "Error loading file: " << e.what() << std::endl;
-        return 1;
-    }
-
+    hairFile.LoadFromFile(SOURCE_DIR "/model/wWavy.hair");
     hairFile.PrintHeader();
+    hairFile.CreateVAO();
 
-    PBD pbd;
-    pbd.initialize(hairFile);
-    pbd.CreateVAO();
+    // PBD pbd;
+    // pbd.initialize(hairFile);
+    // pbd.CreateVAO();
 
-    // while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        pbd.update(deltaTime);
+        // pbd.update(deltaTime);
 
         processInput(window);
 
@@ -84,11 +79,12 @@ int main(){
         modelMatrix = glm::rotate(modelMatrix, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         shader.setMat4("model", modelMatrix);
 
-        pbd.draw(shader);
+        // pbd.draw(shader);
+        hairFile.Draw(shader);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
-    // }
+    }
 
     glfwTerminate();
     return 0;
