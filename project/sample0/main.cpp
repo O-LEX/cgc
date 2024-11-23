@@ -44,10 +44,10 @@ int main(){
     glEnable(GL_DEPTH_TEST);
 
     // Shader shader(SOURCE_DIR "/shader/tiny_hair_vertex.glsl", SOURCE_DIR "/shader/tiny_hair_fragment.glsl");
-    Shader shader(SOURCE_DIR "/shader/hair_vertex.glsl", SOURCE_DIR "/shader/hair_fragment.glsl");
+    Shader shader(SHADER_DIR "/hair_vertex.glsl", SHADER_DIR "/hair_fragment.glsl");
 
     HairFile hairFile;
-    hairFile.LoadFromFile(SOURCE_DIR "/model/wWavy.hair");
+    hairFile.LoadFromFile(MODEL_DIR "/wWavy.hair");
     hairFile.PrintHeader();
     hairFile.CreateVAO();
 
