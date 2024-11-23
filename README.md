@@ -7,7 +7,7 @@ openglで描画するためのプログラム
 
 yukselの.hairファイルを読み込める
 
-使い方
+# 使い方
 
 glfw,glm,eigen3をインストール
 
@@ -21,14 +21,11 @@ brew install glm
 
 brew install eigen
 
-髪を読み込むためにyukselのホームページから.hairファイルをダウンロードする必要がある。
+髪を読み込むためにyukselのホームページから.hairファイルをダウンロードする必要がある。ダウンロードした.hairファイルは解凍してCGC直下にmodelフォルダを作成して配置する
 
 Thank you Cem Yuksel!
 
-hairについて
-
-シミュレーションのコードは不完全。これから色々実装する
-
+# その他
 ray-tracingリポジトリからgltfを読み込む機能を追加したい。誰かしてくれ。
 
 あとgltfよりobjのほうがいいかもしれない。
