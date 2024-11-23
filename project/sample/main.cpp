@@ -47,7 +47,7 @@ int main(){
     Shader shader(SHADER_DIR "/hair_vertex.glsl", SHADER_DIR "/hair_fragment.glsl");
 
     HairFile hairFile;
-    hairFile.LoadFromFile(MODEL_DIR "/wWavy.hair");
+    hairFile.LoadFromFile(MODEL_DIR "/wCurly.hair");
     hairFile.PrintHeader();
     hairFile.CreateVAO();
 

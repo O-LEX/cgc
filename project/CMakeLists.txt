@@ -1,1 +1,2 @@
-add_subdirectory(sample0)
+add_subdirectory(sample)
+add_subdirectory(cuda)
