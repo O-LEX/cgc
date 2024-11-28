@@ -1,16 +1,10 @@
+cmake_minimum_required(VERSION 3.18)
 project(cuda LANGUAGES CXX CUDA)
+
+find_package(CUDA REQUIRED)
 
 if(NOT CMAKE_CUDA_COMPILER)
     message(FATAL_ERROR "CUDA compiler not found. Please ensure CUDA is properly installed and configured.")
-endif()
-
-execute_process(COMMAND ${CMAKE_CUDA_COMPILER} --version
-                OUTPUT_VARIABLE CUDA_VERSION
-                ERROR_VARIABLE CUDA_ERROR
-                OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-if(NOT CUDA_VERSION)
-    message(FATAL_ERROR "Failed to determine CUDA version: ${CUDA_ERROR}")
 endif()
 
 message(STATUS "Using CUDA compiler: ${CMAKE_CUDA_COMPILER}")
@@ -32,4 +26,20 @@ endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CUDA_STANDARD 14
     CUDA_ARCHITECTURES ${CUDA_ARCHITECTURES}
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CUDA_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} 
+  PRIVATE 
+    ${CUDA_LIBRARIES}
+    engine
+)
+
+string(REPLACE "/project/cuda" "" cgc_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "cgc_dir: ${cgc_dir}")
+target_compile_definitions(${PROJECT_NAME}
+    PRIVATE
+        CGC_DIR="${cgc_dir}"
+        MODEL_DIR="${cgc_dir}/model"
+        SHADER_DIR="${cgc_dir}/shader"
 )
