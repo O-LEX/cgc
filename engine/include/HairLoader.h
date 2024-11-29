@@ -39,8 +39,9 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include "Shader.h"
+#include "HairModel.h"
 
-class HairFile {
+class HairLoader {
 public:
     struct Header {
         char signature[4];
@@ -54,25 +55,10 @@ public:
         char info[88] = {0};
     };
 
-    HairFile() = default;
-    ~HairFile() = default;
+    HairLoader() = default;
+    ~HairLoader() = default;
 
-    const Header& GetHeader() const { return header; }
-    const std::vector<unsigned short>& GetSegmentsArray() const { return segments; }
-    const std::vector<float>& GetPointsArray() const { return points; }
-    const std::vector<float>& GetThicknessArray() const { return thickness; }
-    const std::vector<float>& GetTransparencyArray() const { return transparency; }
-    const std::vector<float>& GetColorsArray() const { return colors; }
-
-    void SetHairCount(int count);
-    void SetPointCount(int count);
-
-    void LoadFromFile(const std::string& filename);
-    void SaveToFile(const std::string& filename) const;
-
-    void CreateVAO();
-    void Draw(Shader& shader) const;
-    void PrintHeader() const;
+    bool LoadFromFile(HairModel* model, std::string* err, std::string* warn, const std::string& filename);
 
 private:
     Header header;
@@ -81,8 +67,6 @@ private:
     std::vector<float> thickness;
     std::vector<float> transparency;
     std::vector<float> colors;
-
-    GLuint VAO, VBO, TBO, TrBO, CBO;
 
     static constexpr int HAIR_FILE_SEGMENTS_BIT = 1;
     static constexpr int HAIR_FILE_POINTS_BIT = 2;

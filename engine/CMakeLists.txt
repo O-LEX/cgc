@@ -6,9 +6,9 @@ add_library(engine STATIC
     src/util.cpp
     src/Camera.cpp
     src/Shader.cpp
-    src/HairFile.cpp
+    src/HairLoader.cpp
+    src/HairRenderer.cpp
     src/Strand.cpp
-    src/PBD.cpp
 )
 
 target_include_directories(engine PUBLIC
