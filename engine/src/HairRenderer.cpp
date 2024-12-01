@@ -73,6 +73,9 @@ void HairRenderer::Draw(Shader& shader) const {
     shader.setFloat("defaultTransparency", model.d_transparency);
     shader.setVec3("defaultColor", glm::vec3(model.d_color[0], model.d_color[1], model.d_color[2]));
     
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glBindVertexArray(data.VAO);
 
     unsigned int offset = 0;
