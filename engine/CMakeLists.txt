@@ -8,6 +8,7 @@ add_library(engine STATIC
     src/Shader.cpp
     src/HairLoader.cpp
     src/HairRenderer.cpp
+    src/HairModel.cpp
     src/Strand.cpp
 )
 

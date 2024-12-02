@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
 
 class HairModel {
 public:
@@ -19,4 +20,6 @@ public:
     std::vector<float> thickness;
     std::vector<float> transparency;
     std::vector<float> colors;
+
+    void PrintData() const;
 };
