@@ -20,6 +20,4 @@ public:
     std::vector<float> thickness;
     std::vector<float> transparency;
     std::vector<float> colors;
-
-    void PrintData() const;
 };

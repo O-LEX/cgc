@@ -16,7 +16,5 @@ int main(){
         std::cout << "Hair model loaded successfully." << std::endl;
     }
 
-    model.PrintData();
-
     return 0;
 }
