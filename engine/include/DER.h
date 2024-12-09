@@ -46,23 +46,28 @@ private:
     std::vector<double> thetas; // twitst angle, difference between reference and material frame
 
     void updateEdges();
-    std::vector<double> computeLength(); // edge, lengths of edges
-    std::vector<Eigen::Vector2d> computeCurvature(); // vertex, curvatures of vertices
-    std::vector<double> computeVoronoiLength(); // vertex, voronoi lengths of vertices
-    std::vector<double> computeK_Ss();
-    std::vector<double> computeBetas();
-    std::vector<Eigen::Matrix2d> computeBs();
+
+    double computeLength(int i); // edge
+    double computeVoronoiLength(int i); // vertex
+    Eigen::Vector2d DER::computeCurvature(int i); //vertex
     Eigen::Vector3d computeCurvatureBinormal(int i); //vertex
-    Eigen::Vector2d DER::computeEachCurvature(int i);
-    std::vector<Eigen::Vector2d> computeCurvature(int i); //vertex
-    double computeTwist(int i);
+    double computeK_S(int i); // edge
+    double computeBeta(int i); // vertex
+    Eigen::Matrix2d computeB(int i); // vertex
+    double computeTwist(int i); // vertex
+
+    std::vector<double> computeAllLength(); // edge, lengths of edges
+    std::vector<double> computeAllVoronoiLength(); // vertex, voronoi lengths of vertices
+    std::vector<Eigen::Vector2d> computeAllCurvature(); // vertex, curvatures of vertices
+    std::vector<double> computeAllK_Ss();
+    std::vector<double> computeAllBetas();
+    std::vector<Eigen::Matrix2d> computeAllBs();
 
     void initializeReferenceFrame();
     void updateReferenceFrame(); // update reference frame and tangents
     void updateMaterialFrame(); // compute material frame from reference frame
     double computeStretchingEnergy(); // edge
-    double computeBendingEnergy(); // vertex
     double computeTwistingEnergy(); // vertex
-    Eigen::VectorXd computeTotalForce();
-    Eigen::MatrixXd computeStiffnessMatrix();
+    double computeBendingEnergy(); // vertex
+    double computeTotalEnergy(); // sum of stretching, twisting, and bending energies
 };
