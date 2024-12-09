@@ -228,3 +228,11 @@ double DER::computeBendingEnergy() {
 double DER::computeTotalEnergy() {
     return computeStretchingEnergy() + computeTwistingEnergy() + computeBendingEnergy();
 }
+
+std::vector<Eigen::Vector3d> DER::computeStretchingEnergyGradient() {
+    std::vector<Eigen::Vector3d> grad(num_edges);
+    for (int j = 0; j < num_edges; j++) {
+        grad[j] = k_Ss[j] * (edges[j].norm() - rest_lengths[j]) * edges[j].normalized();
+    }
+    return grad;
+}

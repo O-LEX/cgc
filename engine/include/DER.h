@@ -44,6 +44,9 @@ private:
     std::vector<Eigen::Vector3d> mat_dir_1; // edge, material frame represented in comparison to reference frame
     std::vector<Eigen::Vector3d> mat_dir_2; // edge
     std::vector<double> thetas; // twitst angle, difference between reference and material frame
+    
+    std::vector<double> velocities; // vertex
+    std::vector<double> angular_velocities; // edge
 
     void updateEdges();
 
@@ -70,4 +73,7 @@ private:
     double computeTwistingEnergy(); // vertex
     double computeBendingEnergy(); // vertex
     double computeTotalEnergy(); // sum of stretching, twisting, and bending energies
+    std::vector<Eigen::Vector3d> computeStretchingEnergyGradient(); // edge
+    std::vector<Eigen::Vector3d> computeTwistingEnergyGradient(); // vertex 
+    std::vector<Eigen::Vector3d> computeBendingEnergyGradient(); // vertex
 };
