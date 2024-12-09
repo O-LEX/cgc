@@ -1,8 +1,10 @@
 #include "DER.h"
 
-void DER::initialize() {
-    computeEdges();
-}
+constexpr double M_PI = 3.141592653589793;
+
+DER::DER(const std::vector<Eigen::Vector3d>& vertices, double E, double G, const std::vector<double>& a, const std::vector<double>& b)
+    : vertices(vertices), E(E), G(G), a(a), b(b), num_vertices(vertices.size()), num_edges(num_vertices - 1),
+      rest_lengths(computeRestLength()), rest_curvatures(computeRestCurvature()), rest_twists(computeRestTwist()), k_Ss(computeK_Ss()), betas(computeBetas()), Bs(computeBs()) {}
 
 void DER::computeEdges() {
     for (int i = 0; i < num_edges; i++) {
@@ -53,3 +55,68 @@ double DER::computeBendingEnergy() {
     return E_b;
 }
 
+std::vector<double> DER::computeRestLength() {
+    std::vector<double> ret;
+    for (int i = 0; i < num_edges; i++) {
+        ret.push_back(edges[i].norm());
+    }
+    return ret;
+}
+
+std::vector<Eigen::Vector2d> DER::computeRestCurvature() {
+    std::vector<Eigen::Vector2d> rest_curvatures(num_vertices - 2); // 端の頂点は曲率を定義できないので、num_vertices - 2
+
+    // 各頂点の曲率を計算
+    for (int i = 1; i < num_vertices - 1; ++i) {
+        Eigen::Vector3d curvature = computeCurvature(i);
+
+        // マテリアル曲率の計算 (computeCurvature() は3次元ベクトルを返す)
+        rest_curvatures[i - 1] << curvature.dot(mat_dir_2[i-1]), -curvature.dot(mat_dir_1[i-1]);
+    }
+
+    return rest_curvatures;
+}
+
+std::vector<double> DER::computeRestTwist() {
+    std::vector<double> ret;
+    for (int i = 0; i < num_edges; i++) {
+        ret.push_back(0.0);
+    }
+    return ret;
+}
+
+std::vector<double> DER::computeRestVoronoiLength() {
+    std::vector<double> rest_voronoi_lengths(num_vertices - 2);
+
+    for (int i = 1; i < num_vertices - 1; ++i) {
+        rest_voronoi_lengths[i - 1] = (edges[i - 1].norm() + edges[i].norm()) / 2.0;
+    }
+
+    return rest_voronoi_lengths;
+}
+
+std::vector<double> DER::computeK_Ss() {
+    std::vector<double> ret;
+    for (int i = 0; i < num_edges; i++) {
+        ret.push_back(E * M_PI * a[i] * b[i]);
+    }
+    return ret;
+}
+
+std::vector<double> DER::computeBetas() {
+    std::vector<double> ret;
+    for (int i = 0; i < num_vertices; i++) {
+        ret.push_back(E * M_PI * std::pow(a[i], 3) * b[i] / 4);
+    }
+    return ret;
+}
+
+std::vector<Eigen::Matrix2d> DER::computeBs() {
+    std::vector<Eigen::Matrix2d> ret;
+    for (int i = 0; i < num_vertices; i++) {
+        Eigen::Matrix2d B;
+        B << E * M_PI * std::pow(a[i], 3) * b[i] / 4, 0, 0, G * M_PI * std::pow(a[i], 3) * b[i] / 4;
+        ret.push_back(B);
+    }
+    return ret;
+}
