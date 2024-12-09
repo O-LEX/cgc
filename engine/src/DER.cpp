@@ -91,7 +91,7 @@ double DER::computeStretchingEnergy() {
     return E_s;
 }
 
-Eigen::Vector3d DER::computeEachCurvatureBinormal(int i) {
+Eigen::Vector3d DER::computeCurvatureBinormal(int i) {
     if (i == 0 || i == num_vertices - 1) {
         return Eigen::Vector3d::Zero(); // endpoints have no curvature
     }
@@ -102,7 +102,7 @@ Eigen::Vector3d DER::computeEachCurvatureBinormal(int i) {
 
 Eigen::Vector2d DER::computeEachCurvature(int i){
     Eigen::Vector2d kappa;
-    Eigen::Vector3d kb = computeEachCurvatureBinormal(i);
+    Eigen::Vector3d kb = computeCurvatureBinormal(i);
     kappa(0) = 0.5 * (kb.dot(mat_dir_2[i-1]) + kb.dot(mat_dir_2[i]));
     kappa(1) = -0.5 * (kb.dot(mat_dir_1[i-1]) + kb.dot(mat_dir_1[i]));
     return kappa;
@@ -184,7 +184,9 @@ std::vector<double> DER::computeK_Ss() {
 }
 
 std::vector<double> DER::computeBetas() {
-    std::vector<double> ret(num_vertices - 2);
+    std::vector<double> ret(num_vertices);
+    ret[0] = 0.0;
+    ret[num_vertices - 1] = 0.0;
     for (int i = 1; i < num_vertices - 1; i++) {
         double ai = (a[i-1] + a[i]) / 2.0; // 頂点での主半径
         double bi = (b[i-1] + b[i]) / 2.0; // 頂点での副半径

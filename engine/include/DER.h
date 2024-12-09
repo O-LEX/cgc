@@ -52,7 +52,7 @@ private:
     std::vector<double> computeK_Ss();
     std::vector<double> computeBetas();
     std::vector<Eigen::Matrix2d> computeBs();
-    Eigen::Vector3d computeEachCurvatureBinormal(int i); //vertex
+    Eigen::Vector3d computeCurvatureBinormal(int i); //vertex
     Eigen::Vector2d DER::computeEachCurvature(int i);
     std::vector<Eigen::Vector2d> computeCurvature(int i); //vertex
     double computeTwist(int i);
