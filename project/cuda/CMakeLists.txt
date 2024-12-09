@@ -12,7 +12,6 @@ message(STATUS "CUDA version: ${CUDA_VERSION}")
 
 add_executable(${PROJECT_NAME}
     main.cpp
-    DER.cpp
 )
 
 if(DEFINED ENV{CUDA_ARCH})

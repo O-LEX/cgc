@@ -8,7 +8,7 @@ add_library(engine STATIC
     src/Shader.cpp
     src/HairLoader.cpp
     src/HairRenderer.cpp
-    src/Strand.cpp
+    src/DER.cpp
 )
 
 target_include_directories(engine PUBLIC
